@@ -1,0 +1,31 @@
+
+Fibonacci 数列及其计算方法
+http://blog.csdn.net/liyuanbhu/article/details/51703018
+
+Fibonacci算法的小例子，三种实现之间的性能和内存比较
+http://www.oschina.net/code/snippet_1021320_20516
+
+Fibonacci sequence两种实现算法及其复杂度分析
+http://m.blog.csdn.net/qq_26822029/article/details/77367372
+
+Fibonacci数列算法的几种实现方式与比较 
+http://blog.csdn.net/qq_26025363/article/details/60586830
+
+斐波那契(Fibonacci)的算法优化 
+http://blog.csdn.net/u012346890/article/details/17882813
+
+递归的效率问题及递归与循环比较
+http://www.cnblogs.com/BeyondAnyTime/archive/2012/05/19/2508807.html
+
+漫谈递归：递归的效率问题
+http://www.nowamagic.net/librarys/veda/detail/2321
+
+求斐波那契(Fibonacci)数列通项的七种实现方法
+http://www.jb51.net/article/37286.htm
+
+
+
+
+把某些递归写成尾递归，尾递归可以进行特殊的优化所以效率会比普通的递归高一些，也不会因为递归太多导致栈溢出
+
+

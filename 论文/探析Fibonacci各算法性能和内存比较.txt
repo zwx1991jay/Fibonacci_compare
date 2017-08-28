@@ -1,0 +1,15 @@
+斐波那契(Fibonacci)的算法优化 （溢出F8）
+http://blog.csdn.net/u012346890/article/details/17882813
+
+
+Fibonacci 数列及其计算方法  （文字）
+http://blog.csdn.net/liyuanbhu/article/details/51703018
+
+
+//java代码 （F7）
+http://www.cnblogs.com/liuzhen1995/p/6014322.html
+
+
+
+
+把某些递归写成尾递归，尾递归可以进行特殊的优化所以效率会比普通的递归高一些，也不会因为递归太多导致栈溢出
