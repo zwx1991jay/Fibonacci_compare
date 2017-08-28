@@ -43,7 +43,6 @@ public class Fibonacci {
         return l1 + l2;
     }
     
-    
 	public static long array_cache(int index){     //数组实现
 		if(index<3)	  return 1L;
 		long []a=new long[index];
