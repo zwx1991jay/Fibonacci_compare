@@ -48,7 +48,7 @@ public class Fibonacci {
 		if(index<3)	  return 1L;
 		long []a=new long[index];
 		a[0]=a[1]=1L;
-		for(int i=2;i<index;i++)				a[i]=a[i-1]+a[i-2];
+		for(int i=2;i<index;i++)				a[i]=a[i-1]+a[i-2]; 
 		return a[index-1];
 	}
     
