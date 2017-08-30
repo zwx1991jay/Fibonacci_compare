@@ -18,7 +18,6 @@ public class Fibonacci {
         List<Long> results = new ArrayList<Long>();
         results.add(1L);
         results.add(1L);
- 
         int length = -1;
         while ((length = results.size()) < n)
             results.add(results.get(length - 2) + results.get(length - 1));
@@ -125,6 +124,56 @@ public class Fibonacci {
         long[][] m = fb(n); 
         return m[0][1];
     }
+
+    
+    /************************************************************************/
+    /*  下面矩阵的n次幂，结果保存在      Result[2][2]                   */
+    //   矩阵的n次幂，采用分治法，与x的n 次方算法一致，时间复杂度T(n)=o(logn)
+//        1    1
+//        1    0
+    /************************************************************************/
+    public static long Matrix_power(int n, long Result[][])//求矩阵幂
+//    public static long Matrix_power(int n)//求矩阵幂
+    {
+          long AResult[][] = new long[2][2];
+          long zResult1[][]= new long[2][2];
+         long zResult2[][]= new long[2][2];
+        AResult[0][0]=1;AResult[0][1]=1;AResult[1][0]=1;AResult[1][1]=0;
+        if (1==n)
+        {
+            Result[0][0]=1;Result[0][1]=1;Result[1][0]=1;Result[1][1]=0;
+        }
+        else if (n%2==0)
+        {
+            Matrix_power(n/2,zResult1);
+            MUL(zResult1,zResult1,Result);
+        }
+        else if (n%2 == 1)
+        {
+            Matrix_power((n-1)/2,zResult1);
+            MUL(zResult1,zResult1,zResult2);
+            MUL(zResult2,AResult,Result);
+        }
+        return Result[0][1];
+    }
+    
+    /************************************************************************/
+    /* 两个 矩阵相乘  、结果矩阵保存在 MatrixResult[2][2]中       */
+    /************************************************************************/
+    public static void MUL(  long MatrixA[][],  long MatrixB[][],  long MatrixResult[][] )//矩阵相乘
+    {
+        for (int i=0;i<2 ;i++)
+        {
+            for (int j=0;j<2 ;j++)
+            {
+                MatrixResult[i][j]=0;
+                for (int k=0;k<2 ;k++)
+                {
+                    MatrixResult[i][j]=MatrixResult[i][j]+MatrixA[i][k]*MatrixB[k][j];
+                }
+            }
+        }
+    }
  
     public static void main(String[] args) throws IOException {   	
 		int n = 10;
@@ -132,15 +181,16 @@ public class Fibonacci {
         long time =0;
         long result = 0;
         int i ;
-	    
+	    long result1[][]=new long[2][2];
         for(i=0;i<10;i++){
     		start = System.nanoTime();
-            result = swapCompute(n);
+            result = formula2(n);
+//            result = Matrix_power(n,result1);
             end = System.nanoTime();
             time += (end - start);
             System.out.println( "开始 : "+start+"\t结束："+end+"\t耗时："+(end -start) );  
         }
-	    System.out.println("swapCompute结果：\t "+result + "   swapCompute耗时 : \t"+time/10 );  
+	    System.out.println("array_cache结果：\t "+result + "   array_cache耗时 : \t"+time/10 );  
 	    
 //        for(i=1;i<11;i++){
 //    		start = System.nanoTime();
@@ -150,4 +200,27 @@ public class Fibonacci {
 //        }
 //	    System.out.println("formula2结果：\t\t "+result+ "   formula2耗时 : \t\t "+time/10 );  
     }
+    public static long formula2(int n){
+        double c = Math.sqrt(5.0);
+        double temp1=(1+c)/2;
+        double temp2=(1-c)/2;
+//        return (long) ( 	(1/c)*(Math.pow((1+c)/2,n)-Math.pow((1-c)/2, n))		);
+        if((n&1) ==0){
+        	for(int i =1;i<n/2;i++){
+        		temp1 *= (1+c)/2;
+        		temp2 *= (1-c)/2;
+        	}
+        	temp1 *= temp1;
+        	temp2 *= temp2;
+        }else{
+        	for(int i =1;i<(n-1)/2;i++){
+        		temp1 *= (1+c)/2;
+        		temp2 *= (1-c)/2;
+        	}
+        	temp1 *= temp1*(1+c)/2;
+        	temp2 *= temp2*(1-c)/2;
+        }
+        return (long) ((1/c)*(temp1-temp2));
+    }
+    
 }
