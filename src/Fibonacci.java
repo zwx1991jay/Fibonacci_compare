@@ -176,7 +176,7 @@ public class Fibonacci {
     }
  
     public static void main(String[] args) throws IOException {   	
-		int n = 10;
+		int n = 40;
 		long start, end;
         long time =0;
         long result = 0;
@@ -184,7 +184,7 @@ public class Fibonacci {
 	    long result1[][]=new long[2][2];
         for(i=0;i<10;i++){
     		start = System.nanoTime();
-            result = formula2(n);
+            result = formula(n);
 //            result = Matrix_power(n,result1);
             end = System.nanoTime();
             time += (end - start);

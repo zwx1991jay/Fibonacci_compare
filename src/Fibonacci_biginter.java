@@ -52,22 +52,39 @@ public class Fibonacci_biginter {
 		return a[index-1];
 	}
     
-    //公式法（利用公式F(n) = [@n/sqrt(5)]快速计算第n个斐波那契数）
-    public static long formula(int n){
-        double temp = Math.sqrt(5.0);
-        return (long) ( 	(1/temp)*(Math.pow((1+temp)/2,n)-Math.pow((1-temp)/2, n))		);
+    //公式法（利用公式F(n) = [@n/sqrt(5)]快速计算第n个斐波那契数）,使用BigDecimal.pow(n)比自行实现分治法快
+    public static BigInteger formula(int n){
+    	BigDecimal  temp = BigDecimal.valueOf(Math.sqrt(5.0) );
+    	BigDecimal temp1 = BigDecimal.ONE.add(temp).divide( BigDecimal.valueOf(2.0) );
+    	BigDecimal temp2 = BigDecimal.ONE.subtract(temp).divide( BigDecimal.valueOf(2.0) );
+        if((n&1) ==0){
+        	for(int i =1;i<n/2;i++){
+        		temp1 = temp1.multiply(  BigDecimal.ONE.add(temp).divide( BigDecimal.valueOf(2.0) )  );
+        		temp2 = temp2.multiply( BigDecimal.ONE.subtract(temp).divide( BigDecimal.valueOf(2.0) ) );
+        	}
+        	temp1 = temp1.multiply(temp1);
+        	temp2 = temp2.multiply(temp2);
+        }else{
+        	for(int i =1;i<(n-1)/2;i++){
+        		temp1 = temp1.multiply(  BigDecimal.ONE.add(temp).divide( BigDecimal.valueOf(2.0) )  );
+        		temp2 = temp2.multiply( BigDecimal.ONE.subtract(temp).divide( BigDecimal.valueOf(2.0) ) );
+        	}
+        	temp1 = temp1.multiply(temp1).multiply(  BigDecimal.ONE.add(temp).divide( BigDecimal.valueOf(2.0) )  );
+        	temp2 = temp2.multiply(temp2).multiply(  BigDecimal.ONE.add(temp).divide( BigDecimal.valueOf(2.0) )  );
+        }
+        return BigDecimal.ONE.divide(temp, 20,BigDecimal.ROUND_HALF_DOWN ).multiply(temp1).subtract(temp2).toBigInteger();
     }
     public static BigInteger formula2(int n){
     	BigDecimal  temp = BigDecimal.valueOf(Math.sqrt(5.0) );
     	BigDecimal temp1 = BigDecimal.ONE.add(temp).divide( BigDecimal.valueOf(2.0) );
     	BigDecimal temp2 = BigDecimal.ONE.subtract(temp).divide( BigDecimal.valueOf(2.0) );
-    	BigDecimal sub1 = temp1.pow(n);
-    	BigDecimal sub2 = temp2.pow(n);
-    	BigDecimal sub = sub1.subtract(sub2);
-    	BigDecimal result1 = BigDecimal.ONE.divide(temp, 20,BigDecimal.ROUND_HALF_DOWN );
-    	BigDecimal result = result1.multiply(sub);
-    	return result.toBigInteger();
-//    	return BigDecimal.ONE.divide(temp,BigDecimal.ROUND_HALF_DOWN).multiply(temp1.pow(n).subtract(temp2.pow(n))).toBigInteger() ;
+//    	BigDecimal sub1 = temp1.pow(n);
+//    	BigDecimal sub2 = temp2.pow(n);
+//    	BigDecimal sub = sub1.subtract(sub2);
+//    	BigDecimal result1 = BigDecimal.ONE.divide(temp, 20,BigDecimal.ROUND_HALF_DOWN );
+//    	BigDecimal result = result1.multiply(sub);
+//    	return result.toBigInteger();
+    	return BigDecimal.ONE.divide(temp, 10000,BigDecimal.ROUND_HALF_DOWN).multiply(temp1.pow(n).subtract(temp2.pow(n))).toBigInteger() ;
     }
     
     
@@ -112,16 +129,15 @@ public class Fibonacci_biginter {
 
  
     public static void main(String[] args) throws IOException {   	
-		int n = 90;
+		int n = 800;
 		long start, end;
         long time =0;
         BigInteger result = BigInteger.ZERO;
         int i ;
-        BigInteger result1[][]=new BigInteger[2][2];
+
         for(i=0;i<10;i++){
     		start = System.nanoTime();
-            result = formula2(n);
-//            result = Matrix_power(n,result1);
+            result = matrix(n);
             end = System.nanoTime();
             time += (end - start);
             System.out.println( "开始 : "+start+"\t结束："+end+"\t耗时："+(end -start) );  
