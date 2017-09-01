@@ -126,10 +126,26 @@ public class Fibonacci_biginter {
     	BigInteger[][] m = fb(n); 
         return m[0][1];
     }
+    
+    public static BigInteger matrix_revised(int n){
+    	BigInteger[][] m = matrix_pow(n); 
+        return m[0][1];
+    }
+    public static BigInteger[][] matrix_pow(int n) {  
+    	BigInteger [][] res = { { BigInteger.ONE, BigInteger.ONE }, { BigInteger.ONE, BigInteger.ONE } };  
+    	BigInteger [][] a=UNIT;
+        while(n>0){
+        	if((n&1)==1) 		res = matrixMultiply(res,a);
+        	a=matrixMultiply(a,a);
+        	n=(n>>1);
+        }
+        return res;
+    }  
+    
 
  
     public static void main(String[] args) throws IOException {   	
-		int n = 800;
+		int n = 8000;
 		long start, end;
         long time =0;
         BigInteger result = BigInteger.ZERO;
@@ -137,7 +153,7 @@ public class Fibonacci_biginter {
 
         for(i=0;i<10;i++){
     		start = System.nanoTime();
-            result = matrix(n);
+            result = matrix_revised(n);
             end = System.nanoTime();
             time += (end - start);
             System.out.println( "开始 : "+start+"\t结束："+end+"\t耗时："+(end -start) );  

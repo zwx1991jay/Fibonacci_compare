@@ -94,14 +94,24 @@ public class Fibonacci {
     public static long[][] fb(int n) {  
         if (n == 0) {              return ZERO;          }  
         if (n == 1) {              return UNIT;          }  
-        // n是奇数  
+        // n是偶数  
         if ((n & 1) == 0) {  
         	long[][] matrix = fb(n >> 1);  
             return matrixMultiply(matrix, matrix);  
         }  
-        // n是偶数  
+        // n是奇数  
         long[][] matrix = fb((n - 1) >> 1);  
         return matrixMultiply(matrixMultiply(matrix, matrix), UNIT);  
+    }  
+    public static long[][] matrix_pow(int n) {  
+        long [][] res = { { 1, 1 }, { 1, 1 } };
+        long [][] a=UNIT;
+        while(n>0){
+        	if((n&1)==1) 		res = matrixMultiply(res,a);
+        	a=matrixMultiply(a,a);
+        	n=(n>>1);
+        }
+        return res;
     }  
       
     //矩阵相乘 
@@ -122,6 +132,11 @@ public class Fibonacci {
     //具体实现矩阵相乘算法
     public static long matrix(int n){
         long[][] m = fb(n); 
+        return m[0][1];
+    }
+    
+    public static long matrix_revised(int n){
+        long[][] m = matrix_pow(n); 
         return m[0][1];
     }
 
@@ -176,51 +191,25 @@ public class Fibonacci {
     }
  
     public static void main(String[] args) throws IOException {   	
-		int n = 40;
+		int n = 10;
 		long start, end;
         long time =0;
         long result = 0;
         int i ;
 	    long result1[][]=new long[2][2];
-        for(i=0;i<10;i++){
-    		start = System.nanoTime();
-            result = formula(n);
-//            result = Matrix_power(n,result1);
-            end = System.nanoTime();
-            time += (end - start);
-            System.out.println( "开始 : "+start+"\t结束："+end+"\t耗时："+(end -start) );  
-        }
-	    System.out.println("array_cache结果：\t "+result + "   array_cache耗时 : \t"+time/10 );  
-	    
-//        for(i=1;i<11;i++){
+//        for(i=0;i<10;i++){
 //    		start = System.nanoTime();
-//            result = formula2(n);
+//            result = matrix(n);
+////            result = Matrix_power(n,result1);
 //            end = System.nanoTime();
 //            time += (end - start);
+//            System.out.println( "开始 : "+start+"\t结束："+end+"\t耗时："+(end -start) );  
 //        }
-//	    System.out.println("formula2结果：\t\t "+result+ "   formula2耗时 : \t\t "+time/10 );  
+//	    System.out.println("array_cache结果：\t "+result + "   array_cache耗时 : \t"+time/10 );  
+	    for(i=1;i<=n;i++){
+	    	result = matrix_revised(i);
+	    	System.out.print(result+"\t");
+	    	if( (i%10) == 0 ) System.out.println();
+	    }
     }
-    public static long formula2(int n){
-        double c = Math.sqrt(5.0);
-        double temp1=(1+c)/2;
-        double temp2=(1-c)/2;
-//        return (long) ( 	(1/c)*(Math.pow((1+c)/2,n)-Math.pow((1-c)/2, n))		);
-        if((n&1) ==0){
-        	for(int i =1;i<n/2;i++){
-        		temp1 *= (1+c)/2;
-        		temp2 *= (1-c)/2;
-        	}
-        	temp1 *= temp1;
-        	temp2 *= temp2;
-        }else{
-        	for(int i =1;i<(n-1)/2;i++){
-        		temp1 *= (1+c)/2;
-        		temp2 *= (1-c)/2;
-        	}
-        	temp1 *= temp1*(1+c)/2;
-        	temp2 *= temp2*(1-c)/2;
-        }
-        return (long) ((1/c)*(temp1-temp2));
-    }
-    
 }
